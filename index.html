@@ -1,0 +1,611 @@
+<title>Kunne Tech</title>
+<meta name="description" content="Kunne Tech — estúdio de desenvolvimento de apps, jogos e consultoria em tecnologia.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Silkscreen&display=swap">
+<style>
+/* Layout: blueprint-grid paper, a pixel "K" that reacts to the cursor as the hero, then a calm single column with wide-left headings */
+:root {
+  --paper: #F2F4F8;
+  --paper-2: #E6EAF2;
+  --ink: #0F1A2C;
+  --ink-soft: #4A566B;
+  --line: #CDD4E1;
+  --cobalt: #2747F5;
+  --token: #FFC23A;
+  --on-cobalt: #FFFFFF;
+
+  --f-display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body: "Instrument Sans", "Helvetica Neue", system-ui, sans-serif;
+  --f-pixel: "Silkscreen", ui-monospace, "SF Mono", monospace;
+
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.6rem;
+  --step-3: clamp(2rem, 4vw, 2.75rem);
+  --step-4: clamp(2.6rem, 7vw, 5.2rem);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0B1222; --paper-2: #121B30; --ink: #E7ECF6; --ink-soft: #9AA6BD;
+    --line: #233150; --cobalt: #7B91FF; --token: #FFC23A; --on-cobalt: #0B1222;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0B1222; --paper-2: #121B30; --ink: #E7ECF6; --ink-soft: #9AA6BD;
+  --line: #233150; --cobalt: #7B91FF; --token: #FFC23A; --on-cobalt: #0B1222;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+  background-attachment: fixed;
+  color: var(--ink);
+  font: 400 var(--step-0)/1.6 var(--f-body);
+  padding-inline: 20px;
+}
+body::before {
+  /* fades the grid so text sits on calmer paper */
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 30%, transparent 0%, var(--paper) 75%);
+  opacity: .85;
+}
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--token); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { max-width: 1120px; margin-inline: auto; }
+
+/* ---------- Header ---------- */
+header.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  margin-inline: -20px; padding: 14px 20px;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 800 1.2rem/1 var(--f-display); letter-spacing: -.02em; }
+.logo svg { width: 26px; height: 26px; flex: none; }
+.logo span small { font: 400 .72rem/1 var(--f-pixel); color: var(--ink-soft); margin-left: 4px; letter-spacing: .04em; }
+nav.menu { display: flex; gap: 6px 22px; flex-wrap: wrap; }
+nav.menu a { text-decoration: none; font-weight: 500; font-size: .95rem; color: var(--ink-soft); }
+nav.menu a:hover { color: var(--ink); }
+
+/* ---------- Hero ---------- */
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: 32px; align-items: center; padding-block: 64px 56px;
+}
+.hud { font: 400 .78rem/1 var(--f-pixel); letter-spacing: .08em; color: var(--cobalt); display: flex; gap: 18px; flex-wrap: wrap; }
+.hud b { color: var(--ink); font-weight: 400; }
+.hero h1 {
+  font: 800 var(--step-4)/.98 var(--f-display);
+  letter-spacing: -.035em; margin: 20px 0 22px; text-wrap: balance;
+}
+.hero h1 em { font-style: normal; color: var(--cobalt); position: relative; white-space: nowrap; }
+.hero h1 em::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: .04em; height: .14em;
+  background: var(--token); z-index: -1;
+}
+.hero p.lede { font-size: var(--step-1); line-height: 1.5; color: var(--ink-soft); max-width: 34ch; margin: 0 0 30px; }
+.ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; font: 600 1rem/1 var(--f-body); text-decoration: none;
+  border: 2px solid var(--ink); background: var(--paper); color: var(--ink);
+  box-shadow: 4px 4px 0 var(--ink); transition: transform .12s, box-shadow .12s;
+}
+.btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--ink); }
+.btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--ink); }
+.btn.primary { background: var(--cobalt); color: var(--on-cobalt); border-color: var(--ink); }
+
+.stage { position: relative; aspect-ratio: 1 / 1.05; max-width: 100%; }
+.stage canvas { width: 100%; height: 100%; display: block; touch-action: pan-y; }
+.stage .caption {
+  position: absolute; left: 0; right: 0; bottom: 0; text-align: center;
+  font: 400 .72rem/1 var(--f-pixel); color: var(--ink-soft); letter-spacing: .1em;
+}
+.stage .caption span { animation: blink 1.1s steps(2) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .stage .caption span { animation: none; } }
+
+/* ---------- Sections ---------- */
+section.block { padding-block: 72px; border-top: 1px solid var(--line); }
+.sec-head { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px 40px; margin-bottom: 40px; }
+.sec-head .tag { font: 400 .78rem/1.4 var(--f-pixel); color: var(--cobalt); letter-spacing: .08em; padding-top: .7em; }
+.sec-head h2 { font: 800 var(--step-3)/1.05 var(--f-display); letter-spacing: -.03em; margin: 0; text-wrap: balance; max-width: 22ch; }
+.sec-body { margin-left: calc(220px + 40px); }
+
+/* Sobre */
+.word {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 8px 28px; align-items: baseline;
+  padding: 28px 30px; background: var(--paper); border: 2px solid var(--ink);
+  max-width: 720px;
+}
+.word .term { font: 800 var(--step-3)/1 var(--f-display); letter-spacing: -.03em; }
+.word .pron { font: 400 .8rem/1 var(--f-pixel); color: var(--ink-soft); letter-spacing: .04em; }
+.word ol { grid-column: 1 / -1; margin: 10px 0 0; padding-left: 1.3em; }
+.word li { margin-bottom: 6px; }
+.word li i { color: var(--ink-soft); }
+.about-text { max-width: 62ch; margin-top: 32px; display: grid; gap: 16px; }
+.about-text p { margin: 0; }
+
+/* Serviços */
+.services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border: 2px solid var(--ink); background: var(--paper); }
+.svc { padding: 30px 30px 32px; display: grid; gap: 12px; align-content: start; min-width: 0; }
+.svc:nth-child(odd) { border-right: 2px solid var(--ink); }
+.svc:nth-child(-n+2) { border-bottom: 2px solid var(--ink); }
+.svc .icon { width: 44px; height: 44px; }
+.svc h3 { font: 600 var(--step-2)/1.1 var(--f-display); letter-spacing: -.02em; margin: 6px 0 0; }
+.svc p { margin: 0; color: var(--ink-soft); }
+.svc ul { list-style: none; padding: 0; margin: 6px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.svc li { font-size: .82rem; font-weight: 500; padding: 4px 10px; border: 1px solid var(--line); background: var(--paper-2); }
+.svc:hover .icon rect.hl { fill: var(--token); }
+
+/* Processo */
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; position: relative; }
+.step { padding: 0 22px 0 0; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.step .lvl { font: 400 .78rem/1 var(--f-pixel); color: var(--ink-soft); letter-spacing: .06em; display: flex; align-items: center; gap: 10px; }
+.step .lvl::after { content: ""; flex: 1; height: 2px; background: repeating-linear-gradient(90deg, var(--ink-soft) 0 6px, transparent 6px 12px); }
+.step:last-child .lvl::after { background: none; }
+.step .dot { width: 18px; height: 18px; background: var(--cobalt); flex: none; }
+.step:last-child .dot { background: var(--token); outline: 2px solid var(--ink); }
+.step h3 { font: 600 var(--step-1)/1.2 var(--f-display); margin: 6px 0 0; }
+.step p { margin: 0; color: var(--ink-soft); font-size: .95rem; }
+
+/* Lab */
+.lab { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.cart {
+  background: var(--paper); border: 2px solid var(--ink); display: grid; grid-template-rows: auto 1fr;
+  min-width: 0;
+}
+.cart .label {
+  aspect-ratio: 16 / 7; max-width: 100%; position: relative; overflow: hidden;
+  border-bottom: 2px solid var(--ink); display: flex; align-items: flex-end; padding: 18px 20px;
+}
+.cart .label h3 { position: relative; font: 800 var(--step-3)/1 var(--f-display); letter-spacing: -.03em; margin: 0; color: #fff; text-shadow: 0 2px 0 rgba(0,0,0,.25); }
+.cart.groupiz .label { background: #2747F5; }
+.cart.sigilo .label { background: #1A0F1F; }
+.cart.colheita .label { background: #4E7426; }
+.cart.patente .label { background: #333D2A; }
+.cart .label canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.cart .info { padding: 22px 22px 24px; display: grid; gap: 10px; align-content: start; }
+.cart .meta { font: 400 .72rem/1 var(--f-pixel); letter-spacing: .06em; color: var(--ink-soft); display: flex; gap: 14px; flex-wrap: wrap; }
+.cart .meta .st { color: var(--cobalt); }
+.cart p { margin: 0; color: var(--ink-soft); }
+
+/* Stack */
+.stack { display: flex; flex-wrap: wrap; gap: 10px; }
+.stack span { font-weight: 600; padding: 10px 16px; border: 2px solid var(--ink); background: var(--paper); }
+.stack span.alt { background: var(--paper-2); border-color: var(--line); font-weight: 500; }
+
+/* Contato */
+.contact {
+  background: var(--cobalt); color: var(--on-cobalt); border: 2px solid var(--ink);
+  box-shadow: 8px 8px 0 var(--ink); padding: 48px 40px;
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 32px; align-items: center;
+}
+.contact h2 { font: 800 var(--step-3)/1.05 var(--f-display); letter-spacing: -.03em; margin: 0 0 12px; text-wrap: balance; }
+.contact p { margin: 0; opacity: .9; max-width: 44ch; }
+.mailbox { display: grid; gap: 12px; min-width: 0; }
+.mailbox .addr {
+  font: 600 1.15rem/1.3 var(--f-body); padding: 16px 18px; background: var(--paper); color: var(--ink);
+  border: 2px solid var(--ink); user-select: all; overflow-wrap: anywhere;
+}
+.mailbox .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.mailbox .btn { box-shadow: 4px 4px 0 var(--ink); }
+.mailbox .ok { font: 400 .75rem/1 var(--f-pixel); letter-spacing: .06em; }
+
+footer { padding-block: 48px 40px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--ink-soft); font-size: .9rem; }
+footer .legal { display: grid; gap: 4px; }
+footer .px { font-family: var(--f-pixel); font-size: .72rem; letter-spacing: .06em; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: minmax(0, 1fr); padding-block: 40px 32px; }
+  .stage { max-width: 420px; width: 100%; margin-inline: auto; }
+  .sec-head { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .sec-head .tag { padding-top: 0; }
+  .sec-body { margin-left: 0; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px 0; }
+  .step:nth-child(2) .lvl::after { background: none; }
+  .contact { grid-template-columns: minmax(0, 1fr); padding: 36px 26px; }
+}
+@media (max-width: 640px) {
+  body { padding-inline: 16px; }
+  header.top { margin-inline: -16px; padding-inline: 16px; }
+  nav.menu { gap: 4px 16px; }
+  section.block { padding-block: 56px; }
+  .services, .lab { grid-template-columns: minmax(0, 1fr); }
+  .svc:nth-child(odd) { border-right: 0; }
+  .svc:not(:last-child) { border-bottom: 2px solid var(--ink); }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .step .lvl::after { background: none; }
+  .word { padding: 22px 20px; grid-template-columns: minmax(0, 1fr); }
+  .contact { box-shadow: 5px 5px 0 var(--ink); }
+}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="#inicio" aria-label="Kunne Tech, início">
+      <svg viewBox="0 0 5 7" shape-rendering="crispEdges" aria-hidden="true">
+        <g fill="var(--cobalt)">
+          <rect x="0" y="0" width="1" height="7"/><rect x="4" y="0" width="1" height="1"/>
+          <rect x="3" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/>
+          <rect x="1" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/>
+          <rect x="3" y="5" width="1" height="1"/>
+        </g>
+        <rect x="4" y="6" width="1" height="1" fill="var(--token)"/>
+      </svg>
+      <span>Kunne Tech<small>v1.0</small></span>
+    </a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#sobre">Sobre</a>
+      <a href="#servicos">Serviços</a>
+      <a href="#processo">Processo</a>
+      <a href="#lab">Lab</a>
+      <a href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="inicio">
+  <section class="hero">
+    <div>
+      <div class="hud"><span>PLAYER <b>1</b></span><span>APPS <b>✓</b></span><span>JOGOS <b>✓</b></span><span>CONSULTORIA <b>✓</b></span></div>
+      <h1>Construímos o que você <em>quer poder</em> fazer.</h1>
+      <p class="lede">Somos um estúdio de tecnologia que desenvolve aplicativos, jogos e dá consultoria para empresas que querem tirar uma ideia do papel sem se perder no caminho.</p>
+      <div class="ctas">
+        <a class="btn primary" href="#contato">Começar um projeto →</a>
+        <a class="btn" href="#servicos">Ver serviços</a>
+      </div>
+    </div>
+    <div class="stage">
+      <canvas id="kcanvas" aria-label="Um K feito de pixels que se espalham quando o cursor passa por cima" role="img"></canvas>
+      <div class="caption"><span>▶</span> PASSE O CURSOR · TOQUE</div>
+    </div>
+  </section>
+
+  <section class="block" id="sobre">
+    <div class="sec-head">
+      <div class="tag">SOBRE</div>
+      <h2>Um nome que é também uma promessa.</h2>
+    </div>
+    <div class="sec-body">
+      <div class="word">
+        <span class="term">kunne</span>
+        <span class="pron">/ˈkʉ.nə/ · verbo · norueguês</span>
+        <ol>
+          <li>poder; ser capaz de. <i>“Jeg kan kunne gjøre det.” Eu posso conseguir fazer isso.</i></li>
+          <li>saber como fazer algo; dominar um ofício.</li>
+        </ol>
+      </div>
+      <div class="about-text">
+        <p>A Kunne Tech nasceu da vontade de juntar dois mundos que costumam andar separados: a engenharia sólida de produtos digitais e a criatividade do desenvolvimento de jogos. Do jogo aprendemos a pensar em experiência, ritmo e diversão. Da engenharia, a pensar em escala, segurança e manutenção.</p>
+        <p>Trabalhamos com times pequenos, comunicação direta e entregas curtas. Você acompanha cada etapa, testa versões reais desde cedo e sabe exatamente onde seu investimento está indo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="servicos">
+    <div class="sec-head">
+      <div class="tag">SERVIÇOS</div>
+      <h2>Escolha seu modo de jogo.</h2>
+    </div>
+    <div class="services">
+      <article class="svc">
+        <svg class="icon" viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="3" y="0" width="5" height="11" fill="var(--ink)"/><rect x="4" y="1" width="3" height="7" fill="var(--paper)"/>
+          <rect class="hl" x="5" y="9" width="1" height="1" fill="var(--cobalt)"/>
+        </svg>
+        <h3>Aplicativos</h3>
+        <p>Apps nativos e multiplataforma para Android e iOS, além de sistemas web e APIs. Do protótipo navegável à publicação nas lojas.</p>
+        <ul><li>Android & iOS</li><li>Web apps</li><li>APIs & back-end</li><li>Publicação nas lojas</li></ul>
+      </article>
+      <article class="svc">
+        <svg class="icon" viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="0" y="3" width="11" height="5" fill="var(--ink)"/><rect x="1" y="2" width="3" height="1" fill="var(--ink)"/><rect x="7" y="2" width="3" height="1" fill="var(--ink)"/>
+          <rect x="2" y="4" width="1" height="3" fill="var(--paper)"/><rect x="1" y="5" width="3" height="1" fill="var(--paper)"/>
+          <rect class="hl" x="7" y="4" width="1" height="1" fill="var(--cobalt)"/><rect class="hl" x="9" y="6" width="1" height="1" fill="var(--cobalt)"/>
+        </svg>
+        <h3>Jogos</h3>
+        <p>Jogos casuais, sociais e narrativos para mobile e PC. Cuidamos de game design, arte, programação e balanceamento.</p>
+        <ul><li>Mobile & PC</li><li>Game design</li><li>Multiplayer assíncrono</li><li>Gamificação</li></ul>
+      </article>
+      <article class="svc">
+        <svg class="icon" viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="1" y="1" width="9" height="7" fill="var(--ink)"/><rect x="2" y="2" width="7" height="5" fill="var(--paper)"/>
+          <rect x="3" y="8" width="2" height="2" fill="var(--ink)"/><rect x="3" y="3" width="5" height="1" fill="var(--ink-soft)"/>
+          <rect class="hl" x="3" y="5" width="3" height="1" fill="var(--cobalt)"/>
+        </svg>
+        <h3>Consultoria</h3>
+        <p>Ajudamos a decidir antes de gastar: arquitetura, escolha de tecnologias, revisão de código, melhoria de processos e uso de IA no produto.</p>
+        <ul><li>Arquitetura</li><li>Code review</li><li>Times & processos</li><li>IA aplicada</li></ul>
+      </article>
+      <article class="svc">
+        <svg class="icon" viewBox="0 0 11 11" shape-rendering="crispEdges" aria-hidden="true">
+          <rect x="0" y="0" width="5" height="5" fill="var(--ink)"/><rect x="6" y="0" width="5" height="5" fill="var(--ink-soft)"/>
+          <rect x="0" y="6" width="5" height="5" fill="var(--ink-soft)"/><rect class="hl" x="6" y="6" width="5" height="5" fill="var(--cobalt)"/>
+        </svg>
+        <h3>Produto & UX</h3>
+        <p>Pesquisa com usuários, fluxos, interface e protótipos clicáveis. Validamos a ideia com gente de verdade antes da primeira linha de código.</p>
+        <ul><li>Discovery</li><li>UI design</li><li>Protótipos</li><li>Testes de usabilidade</li></ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="processo">
+    <div class="sec-head">
+      <div class="tag">PROCESSO</div>
+      <h2>Quatro fases, sem chefão escondido.</h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="lvl"><span class="dot"></span>FASE 1</div>
+        <h3>Descoberta</h3>
+        <p>Entendemos o problema, o público e o orçamento. Você sai com escopo, prazos e riscos claros.</p>
+      </div>
+      <div class="step">
+        <div class="lvl"><span class="dot"></span>FASE 2</div>
+        <h3>Protótipo</h3>
+        <p>Uma versão navegável ou jogável em poucas semanas, para testar antes de investir pesado.</p>
+      </div>
+      <div class="step">
+        <div class="lvl"><span class="dot"></span>FASE 3</div>
+        <h3>Construção</h3>
+        <p>Ciclos de duas semanas com entregas testáveis. Você vê o produto crescer a cada sprint.</p>
+      </div>
+      <div class="step">
+        <div class="lvl"><span class="dot"></span>FASE 4</div>
+        <h3>Lançamento</h3>
+        <p>Publicação, métricas e suporte. Depois do lançamento continuamos evoluindo com você.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="lab">
+    <div class="sec-head">
+      <div class="tag">LAB</div>
+      <h2>O que estamos criando por aqui.</h2>
+    </div>
+    <div class="lab">
+      <article class="cart groupiz">
+        <div class="label"><canvas data-art="quiz" aria-hidden="true"></canvas><h3>Groupiz</h3></div>
+        <div class="info">
+          <div class="meta"><span class="st">● EM DESENVOLVIMENTO</span><span>ANDROID</span><span>TRIVIA</span></div>
+          <p>Um jogo de perguntas para grupos de amigos. Cada um responde no seu tempo e o ranking do grupo se atualiza ao longo do dia.</p>
+        </div>
+      </article>
+      <article class="cart sigilo">
+        <div class="label"><canvas data-art="sigil" aria-hidden="true"></canvas><h3>Sigilo</h3></div>
+        <div class="info">
+          <div class="meta"><span class="st">● EM DESENVOLVIMENTO</span><span>PC</span><span>RPG POR TURNOS</span></div>
+          <p>Um RPG por turnos de atmosfera sombria, inspirado em grimórios e simbologia ocultista. Exploração, invocações e escolhas com consequência.</p>
+        </div>
+      </article>
+      <article class="cart colheita">
+        <div class="label"><canvas data-art="farm" aria-hidden="true"></canvas><h3>Colheita Infeliz</h3></div>
+        <div class="info">
+          <div class="meta"><span class="st">● EM DESENVOLVIMENTO</span><span>PC · STEAM DECK · ANDROID</span><span>ROGUELITE</span></div>
+          <p>Uma fazenda no meio de um apocalipse zumbi de animais. Você planta correndo, colhe passando por cima e usa a própria colheita como munição: o milho vira tiro de espingarda, a abóbora vira granada e o tomate cura.</p>
+        </div>
+      </article>
+      <article class="cart patente">
+        <div class="label"><canvas data-art="board" aria-hidden="true"></canvas><h3>Patente</h3></div>
+        <div class="info">
+          <div class="meta"><span class="st">● EM DESENVOLVIMENTO</span><span>ANDROID</span><span>ESTRATÉGIA</span></div>
+          <p>Um jogo de tabuleiro inspirado no clássico Combate, com campanha de dezesseis fases. Peça derrotada não morre: vai para o hospital e fica fora por algumas batalhas. Toda vitória tem um preço.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="block" id="stack">
+    <div class="sec-head">
+      <div class="tag">FERRAMENTAS</div>
+      <h2>Tecnologia escolhida pelo problema, não pela moda.</h2>
+    </div>
+    <div class="sec-body stack">
+      <span>Flutter</span><span>Kotlin</span><span>Swift</span><span>React</span><span>NestJS</span><span>Node.js</span>
+      <span>Unity</span><span>Godot</span><span>PostgreSQL</span><span>Firebase</span><span>AWS</span>
+      <span class="alt">Figma</span><span class="alt">CI/CD</span><span class="alt">LLMs & IA</span>
+    </div>
+  </section>
+
+  <section class="block" id="contato">
+    <div class="contact">
+      <div>
+        <h2>Tem uma ideia? Vamos ver do que ela é capaz.</h2>
+        <p>Conte em poucas linhas o que você quer construir. Respondemos em até dois dias úteis com próximos passos e uma estimativa inicial, sem compromisso.</p>
+      </div>
+      <div class="mailbox">
+        <div class="addr" id="email">contato@kunnetech.com.br</div>
+        <div class="row">
+          <a class="btn" href="mailto:contato@kunnetech.com.br?subject=Novo%20projeto">Escrever e-mail</a>
+          <button class="btn" id="copy" type="button">Copiar endereço</button>
+          <span class="ok" id="copied" aria-live="polite"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="legal">
+    <span>© 2026 Kunne Tech · CNPJ 32.224.325/0001-44</span>
+    <span>Políticas de privacidade: <a href="/patente/privacidade/">Patente</a> · <a href="https://api-production-053eb.up.railway.app/privacy">Groupiz</a></span>
+  </div>
+  <span class="px">INSERT COIN TO CONTINUE ▸</span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+  /* ---------- Hero: pixel K ---------- */
+  const K = [
+    "X...X.",
+    "X..X..",
+    "X.X...",
+    "XX....",
+    "X.X...",
+    "X..X..",
+    "X...X.",
+  ];
+  const cv = document.getElementById("kcanvas");
+  const ctx = cv.getContext("2d");
+  let px = [], cell = 0, W = 0, H = 0, dpr = 1;
+  const pointer = { x: -9999, y: -9999 };
+
+  function layout() {
+    const r = cv.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const sub = 3; // each glyph pixel is a 3x3 cluster of small squares
+    const cols = K[0].length * sub, rows = K.length * sub;
+    cell = Math.floor(Math.min(W / (cols + 2), (H - 30) / (rows + 2)));
+    const ox = (W - cols * cell) / 2 + cell * 1.2, oy = (H - 30 - rows * cell) / 2;
+    const old = px; px = [];
+    K.forEach((row, gy) => [...row].forEach((c, gx) => {
+      if (c !== "X") return;
+      for (let sy = 0; sy < sub; sy++) for (let sx = 0; sx < sub; sx++) {
+        const hx = ox + (gx * sub + sx) * cell, hy = oy + (gy * sub + sy) * cell;
+        const i = px.length, o = old[i];
+        px.push({ hx, hy, x: o ? o.x : hx, y: o ? o.y : hy, vx: 0, vy: 0, coin: false });
+      }
+    }));
+    // the "coin": a yellow cluster at the bottom-right corner of the K
+    const coin = { hx: ox + 5 * sub * cell, hy: oy + 6 * sub * cell };
+    for (let sy = 0; sy < sub; sy++) for (let sx = 0; sx < sub; sx++)
+      px.push({ hx: coin.hx + sx * cell, hy: coin.hy + sy * cell, x: coin.hx + sx * cell, y: coin.hy + sy * cell, vx: 0, vy: 0, coin: true });
+  }
+
+  let colors = {};
+  function readColors() { colors = { ink: css("--cobalt"), coin: css("--token"), shadow: css("--ink") }; }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    const s = cell - 2;
+    for (const p of px) {
+      ctx.fillStyle = colors.shadow; ctx.globalAlpha = .18;
+      ctx.fillRect(p.x + 3, p.y + 3, s, s);
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = p.coin ? colors.coin : colors.ink;
+      ctx.fillRect(p.x, p.y, s, s);
+    }
+  }
+
+  function step() {
+    const R = cell * 4.5;
+    for (const p of px) {
+      const dx = p.x - pointer.x, dy = p.y - pointer.y, d = Math.hypot(dx, dy);
+      if (d < R && d > 0.01) { const f = (1 - d / R) * 2.4; p.vx += dx / d * f; p.vy += dy / d * f; }
+      p.vx += (p.hx - p.x) * .06; p.vy += (p.hy - p.y) * .06;
+      p.vx *= .82; p.vy *= .82;
+      p.x += p.vx; p.y += p.vy;
+    }
+    draw();
+    requestAnimationFrame(step);
+  }
+
+  function setPointer(e) {
+    const r = cv.getBoundingClientRect();
+    pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
+  }
+  cv.addEventListener("pointermove", setPointer);
+  cv.addEventListener("pointerdown", e => {
+    setPointer(e);
+    if (reduce) return;
+    for (const p of px) { const a = Math.random() * Math.PI * 2, v = 6 + Math.random() * 10; p.vx += Math.cos(a) * v; p.vy += Math.sin(a) * v; }
+  });
+  cv.addEventListener("pointerleave", () => { pointer.x = pointer.y = -9999; });
+
+  readColors(); layout(); draw();
+  new ResizeObserver(() => { layout(); draw(); }).observe(cv);
+  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => { readColors(); draw(); });
+  new MutationObserver(() => { readColors(); draw(); }).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+  if (!reduce) requestAnimationFrame(step);
+
+  /* ---------- Lab cartridge art ---------- */
+  document.querySelectorAll("canvas[data-art]").forEach(c => {
+    const r = c.getBoundingClientRect(), g = c.getContext("2d");
+    c.width = r.width; c.height = r.height;
+    const n = 14, w = c.width / n;
+    if (c.dataset.art === "quiz") {
+      const palette = ["#FFC23A", "#FF6B6B", "#3DDC97", "#FFFFFF"];
+      for (let i = 0; i < 40; i++) {
+        g.fillStyle = palette[i % 4]; g.globalAlpha = .9;
+        const x = Math.floor(((i * 37) % 97) / 97 * n) * w, y = Math.floor(((i * 53) % 89) / 89 * (c.height / w)) * w;
+        g.fillRect(x + w * .25, y + w * .25, w * .5, w * .5);
+      }
+      g.globalAlpha = 1; g.fillStyle = "rgba(255,255,255,.95)";
+      g.font = `700 ${w * 2.4}px ${css("--f-display")}`; g.textAlign = "right";
+      g.fillText("?", c.width - w * .8, w * 2.8);
+    } else if (c.dataset.art === "farm") {
+      // crop rows, with a few pumpkins and one zombie-green intruder
+      const s = w * .55;
+      for (let row = 0; row < 3; row++) for (let col = 0; col < 7; col++) {
+        const x = c.width * .42 + col * w * .82, y = w * .7 + row * w * 1.1;
+        if (x + s > c.width) continue;
+        g.fillStyle = "#3A2A14"; g.fillRect(x - 2, y + s - 2, s + 4, 5);
+        const k = (row * 7 + col * 3) % 9;
+        g.fillStyle = k === 0 ? "#FF8A1F" : k === 4 ? "#FFC23A" : "#9BD34A";
+        g.fillRect(x, y, s, s);
+      }
+      g.fillStyle = "#B6FF6B"; g.fillRect(c.width * .3, w * 1.4, s * 1.3, s * 1.3);
+      g.fillStyle = "#E3302F"; g.fillRect(c.width * .3 + s * .25, w * 1.4 + s * .35, s * .25, s * .25);
+      g.fillRect(c.width * .3 + s * .8, w * 1.4 + s * .35, s * .25, s * .25);
+    } else if (c.dataset.art === "board") {
+      // checkerboard with face-down pieces, two of them revealed
+      const cs = Math.min(w * .9, c.height / 6);
+      const ox = c.width - cs * 7 - cs * .5, oy = cs * .3;
+      for (let y = 0; y < 5; y++) for (let x = 0; x < 7; x++) {
+        g.fillStyle = (x + y) % 2 ? "rgba(255,255,255,.08)" : "rgba(255,255,255,.16)";
+        g.fillRect(ox + x * cs, oy + y * cs, cs, cs);
+      }
+      const pieces = [[1,0,"#C83A3A"],[3,0,"#C83A3A"],[5,1,"#C83A3A"],[2,1,"#C83A3A"],[1,3,"#3A6BC8"],[4,4,"#3A6BC8"],[5,3,"#3A6BC8"],[6,4,"#3A6BC8"]];
+      pieces.forEach(([x, y, col]) => { g.fillStyle = col; g.fillRect(ox + x * cs + cs * .18, oy + y * cs + cs * .18, cs * .64, cs * .64); });
+      g.fillStyle = "#FFC23A"; g.font = `700 ${cs * .45}px ${css("--f-pixel")}`; g.textAlign = "center"; g.textBaseline = "middle";
+      g.fillText("9", ox + 5.5 * cs, oy + 1.5 * cs); g.fillText("10", ox + 5.5 * cs, oy + 3.5 * cs);
+    } else {
+      g.strokeStyle = "rgba(220,60,90,.7)"; g.lineWidth = 2;
+      const cx = c.width * .78, cy = c.height * .45, R = Math.min(c.width, c.height) * .34;
+      g.beginPath(); g.arc(cx, cy, R, 0, Math.PI * 2); g.stroke();
+      g.beginPath(); g.arc(cx, cy, R * .8, 0, Math.PI * 2); g.stroke();
+      g.beginPath();
+      for (let i = 0; i <= 5; i++) { const a = -Math.PI / 2 + i * (Math.PI * 4 / 5); const x = cx + Math.cos(a) * R * .8, y = cy + Math.sin(a) * R * .8; i ? g.lineTo(x, y) : g.moveTo(x, y); }
+      g.stroke();
+      g.fillStyle = "rgba(255,194,58,.8)";
+      for (let i = 0; i < 30; i++) g.fillRect((i * 71 % 100) / 100 * c.width, (i * 43 % 100) / 100 * c.height, 2, 2);
+    }
+  });
+
+  /* ---------- Copy e-mail ---------- */
+  const out = document.getElementById("copied"), addr = document.getElementById("email");
+  document.getElementById("copy").addEventListener("click", () => {
+    const text = addr.textContent.trim();
+    const fallback = () => {
+      const sel = getSelection(), rg = document.createRange();
+      rg.selectNodeContents(addr); sel.removeAllRanges(); sel.addRange(rg);
+      out.textContent = "SELECIONADO · ⌘C";
+    };
+    try {
+      navigator.clipboard.writeText(text).then(() => { out.textContent = "COPIADO ✓"; }, fallback);
+    } catch { fallback(); }
+  });
+})();
+</script>
