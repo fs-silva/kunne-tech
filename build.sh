@@ -6,7 +6,7 @@ set -e
 cd "$(dirname "$0")"
 
 SITE="https://kunnetech.com.br"
-mkdir -p public/patente/privacidade public/groupiz/privacidade public/groupiz/excluir-conta
+mkdir -p public/patente/privacidade public/groupiz/privacidade public/groupiz/excluir-conta public/unhappy-harvest/privacidade
 
 # tudo antes do <header> vai para o <head>; o resto é o corpo
 corte=$(grep -n '<header class="top">' index.html | head -1 | cut -d: -f1)
@@ -37,6 +37,7 @@ EOF
 cp ../patente/privacidade/index.html public/patente/privacidade/index.html
 cp ../quiz-em-grupo/site/privacidade/index.html public/groupiz/privacidade/index.html
 cp ../quiz-em-grupo/site/excluir-conta/index.html public/groupiz/excluir-conta/index.html
+cp ../colheita-infeliz/privacidade/index.html public/unhappy-harvest/privacidade/index.html
 
 echo "kunnetech.com.br" > public/CNAME
 
@@ -57,6 +58,7 @@ cat > public/sitemap.xml <<EOF
   <url><loc>$SITE/patente/privacidade/</loc></url>
   <url><loc>$SITE/groupiz/privacidade/</loc></url>
   <url><loc>$SITE/groupiz/excluir-conta/</loc></url>
+  <url><loc>$SITE/unhappy-harvest/privacidade/</loc></url>
 </urlset>
 EOF
 
