@@ -45,6 +45,12 @@ cat > public/favicon.svg <<'EOF'
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -1 7 9" shape-rendering="crispEdges"><rect x="-1" y="-1" width="7" height="9" fill="#0F1A2C"/><g fill="#7B91FF"><rect x="0" y="0" width="1" height="7"/><rect x="4" y="0" width="1" height="1"/><rect x="3" y="1" width="1" height="1"/><rect x="2" y="2" width="1" height="1"/><rect x="1" y="3" width="1" height="1"/><rect x="2" y="4" width="1" height="1"/><rect x="3" y="5" width="1" height="1"/></g><rect x="4" y="6" width="1" height="1" fill="#FFC23A"/></svg>
 EOF
 
+# Vendedores autorizados de anúncios dos apps da Kunne Tech (Google AdMob). Verificado pelo AdMob
+# no site cadastrado como site do desenvolvedor na Google Play.
+cat > public/app-ads.txt <<'EOF'
+google.com, pub-3994076046772375, DIRECT, f08c47fec0942fa0
+EOF
+
 cat > public/robots.txt <<EOF
 User-agent: *
 Allow: /
